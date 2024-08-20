@@ -1,0 +1,34 @@
+services:
+  example:
+    build: .
+    environment:
+      - DOCDB_EXAMPLE_CONNECTION_STRING=mongodb://root:root@mongo:27017
+    ports:
+      - 8000:8000
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: on-failure
+  mongo:
+    image: mongo:5.0.28
+    volumes:
+      - mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    healthcheck:
+      test:
+        - CMD
+        - mongo
+        - --quiet
+        - 127.0.0.1/test
+        - --eval
+        - "quit(db.runCommand({ ping: 1 }).ok ? 0 : 1)"
+      interval: 10s
+      timeout: 10s
+      start_period: 30s
+      start_interval: 5s
+      retries: 5
+    restart: on-failure
+volumes:
+  mongo:
