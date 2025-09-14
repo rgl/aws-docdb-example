@@ -10,7 +10,7 @@ services:
         condition: service_healthy
     restart: on-failure
   mongo:
-    image: mongo:5.0.28
+    image: mongo:5.0.31
     volumes:
       - mongo:/data/db
     environment:

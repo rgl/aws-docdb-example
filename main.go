@@ -13,9 +13,9 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 var (
@@ -135,7 +135,7 @@ func connectToMongoDB(ctx context.Context) (*mongo.Client, error) {
 		return nil, fmt.Errorf("the DOCDB_EXAMPLE_CONNECTION_STRING_SECRET_ID or DOCDB_EXAMPLE_CONNECTION_STRING environment variable is not set")
 	}
 
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(connectionString))
+	client, err := mongo.Connect(options.Client().ApplyURI(connectionString))
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect: %w", err)
 	}

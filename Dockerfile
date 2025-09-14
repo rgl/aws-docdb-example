@@ -1,6 +1,6 @@
-# syntax=docker.io/docker/dockerfile:1.9
+# syntax=docker.io/docker/dockerfile:1.18
 
-FROM golang:1.23-bookworm as builder
+FROM golang:1.25.1-trixie AS builder
 WORKDIR /app
 COPY go.* ./
 RUN go mod download
@@ -10,7 +10,7 @@ ARG APP_REVISION='0000000000000000000000000000000000000000'
 RUN CGO_ENABLED=0 go build -ldflags="-s -X main.version=${APP_VERSION} -X main.revision=${APP_REVISION}"
 
 # NB we use the bookworm-slim (instead of scratch) image so we can enter the container to execute bash etc.
-FROM debian:bookworm-slim
+FROM debian:13-slim
 RUN <<EOF
 #!/bin/bash
 set -euxo pipefail

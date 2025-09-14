@@ -3,6 +3,7 @@
         "bson",
         "DOCDB",
         "terramate",
+        "trixie",
         "Upsert"
     ]
 }
